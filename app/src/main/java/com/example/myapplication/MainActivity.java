@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String messageToSend = "this is a message";
-                String number = "2121234567";
+                String number = "+31657792925";
 
                 SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null,null);
             }
