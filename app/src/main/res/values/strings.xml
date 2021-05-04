@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="btn1Name">Button</string>
+    <string name="app_name">DroidFinder</string>
+    <string name="btn1Name">Send Location</string>
+    <string name="tfieldHint">Phone Number</string>
 </resources>
