@@ -1,12 +1,16 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import android.content.Context;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -14,16 +18,17 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
-    private double latitude;
-    private double longitude;
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-        }
-    };
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
+public class MainActivity extends AppCompatActivity{
+    FusedLocationProviderClient fusedLocationProviderClient;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -31,19 +36,47 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LocationManager mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000,
-                20, mLocationListener);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         final TextView textview1 = (TextView) findViewById(R.id.txtHello);
         Button button1 = (Button) findViewById(R.id.btnGPS);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String messageToSend = ("Latitude: " + latitude + ", Longitude: " + longitude + "\n");
-                String number = "+31657792925";
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    getLocation();
+                }
+                else {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+                }
 
-                SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null,null);
+            }
+        });
+
+
+    }
+    private void getLocation(){
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location =  task.getResult();
+                if (location != null){
+
+                    try {
+                        Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                        List<Address> addresses =  geocoder.getFromLocation(location.getLatitude(), location.getLongitude(),1);
+                        String messageToSend = ("Latitude: " + addresses.get(0).getLatitude() + " Longitude: " + addresses.get(0).getLongitude());
+                        String number = "+31657792925";
+
+                        SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null,null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    TextView txt1 = findViewById(R.id.txtHello);
+                    txt1.setText("yoo");
+                }
             }
         });
     }
