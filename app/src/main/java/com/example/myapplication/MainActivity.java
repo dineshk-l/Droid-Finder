@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity{
         final TextView textview1 = (TextView) findViewById(R.id.txtHello);
         Button button1 = (Button) findViewById(R.id.btnGPS);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        MySmsReceiver smsReceiver = new MySmsReceiver();
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+
     private void getLocation(){
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
             @Override
@@ -69,13 +71,13 @@ public class MainActivity extends AppCompatActivity{
                         Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
                         List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         String messageToSend = ("Latitude: " + addresses.get(0).getLatitude() + " Longitude: " + addresses.get(0).getLongitude());
-                        String number = "112";
+                        String number = "+37066371655";
                         TextInputLayout txtField = findViewById(R.id.textField);
                         number = txtField.getEditText().getText().toString();
                         System.err.println(number);
                         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
                         && number != null){
-
+                            System.err.println("Success");
                             sendMessage(messageToSend, number);
                         }
                         else {
