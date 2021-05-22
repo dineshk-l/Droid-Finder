@@ -3,12 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/item2"
-        android:icon="@drawable/ic_settingsgearicon"
         android:title="About"
         app:showAsAction="never"
         />
     <item android:id="@+id/item3"
-        android:icon="@drawable/ic_settingsgearicon"
         android:title="Help"
         app:showAsAction="never"
         />
