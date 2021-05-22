@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button1 = findViewById(R.id.btnGPS);
-
         LocationHandler locationHandler = new LocationHandler(this, "+37066371655");
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
