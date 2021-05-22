@@ -31,8 +31,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity{
-    private static String number;
-    WifiManager wifiManager;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -41,22 +39,16 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button1 = findViewById(R.id.btnGPS);
-        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
         LocationHandler locationHandler = new LocationHandler(this, "+37066371655");
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                locationHandler.getLocation();
+                locationHandler.sendLocation();
             }
 
         });
 
 
-    }
-
-    private void sendMessage(String messageToSend, String number) {
-        TextView textview1 = findViewById(R.id.txtHello);
-        textview1.setText("Success");
-        SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null, null);
     }
 }
