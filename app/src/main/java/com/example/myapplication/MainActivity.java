@@ -19,11 +19,13 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabItem;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Button button1 = findViewById(R.id.btnGPS);
         LocationHandler locationHandler = new LocationHandler(this, "+37066371655");
         button1.setOnClickListener(new View.OnClickListener() {
