@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 import android.telephony.SmsManager;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,7 @@ public class LocationHandler {
         private double lati;
         private double longi;
         private static final int LOCATION_REFRESH_TIME = 100;
-        private static final int LOCATION_REFRESH_DISTANCE = 100;
+        private static final int LOCATION_REFRESH_DISTANCE = 0;
         LocationManager mLocationManager;
         private final LocationListener myLocListener = new LocationListener() {
             @Override

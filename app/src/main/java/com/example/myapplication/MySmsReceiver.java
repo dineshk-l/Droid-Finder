@@ -55,10 +55,11 @@ public class MySmsReceiver extends BroadcastReceiver {
                         locationHandler.setNumber(msgs[i].getOriginatingAddress());
                         locationHandler.sendLocation();
                     }
+                    Log.d(TAG, "onReceive: " + strMessage);
+                    Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
                 }
 
-                Log.d(TAG, "onReceive: " + strMessage);
-                Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
+
             }
 
 
