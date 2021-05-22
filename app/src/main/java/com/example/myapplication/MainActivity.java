@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity{
 
         Button button1 = findViewById(R.id.btnGPS);
 
-        LocationHandler locationHandler = new LocationHandler(this, "+37066371655");
+        LocationHandler locationHandler = new LocationHandler(this, "+31657792925");
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
