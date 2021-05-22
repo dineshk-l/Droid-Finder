@@ -18,6 +18,7 @@ public class MySmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         LocationHandler locationHandler = new LocationHandler(context, null);
+        InternetHandler internetHandler = new InternetHandler(context);
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs;
         String strMessage = "";
@@ -46,17 +47,19 @@ public class MySmsReceiver extends BroadcastReceiver {
 
                 if (msgs[i].getOriginatingAddress().equals("+37066371655")){
                     if (msgs[i].getMessageBody().contains("turn on data")){
-
+                        System.err.println("data");
+                        internetHandler.wifiOn();
                     }
                     if (msgs[i].getMessageBody().contains("getLocation")){
 
                         locationHandler.setNumber(msgs[i].getOriginatingAddress());
                         locationHandler.sendLocation();
                     }
+                    Log.d(TAG, "onReceive: " + strMessage);
+                    Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
                 }
 
-                Log.d(TAG, "onReceive: " + strMessage);
-                Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
+
             }
 
 
