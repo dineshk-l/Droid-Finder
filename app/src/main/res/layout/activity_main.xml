@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<include
-    android:id="@+id/toolbar"
-    layout="@layout/toolbar"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
 
-    />
+        />
+
+
     <Button
         android:id="@+id/btnGPS"
         android:layout_width="wrap_content"
@@ -83,5 +85,39 @@
             />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="56dp"
+        tools:ignore="DuplicateIds,MissingConstraints">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Main" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabPermissions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Permissions" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabWhitelist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Whitelist" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.viewpager.widget.ViewPager;
 
 
 import android.Manifest;
@@ -27,6 +28,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
@@ -34,6 +37,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity{
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -49,6 +53,11 @@ public class MainActivity extends AppCompatActivity{
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        TabItem tabMain = findViewById(R.id.tabMain);
+        TabItem tabPermissions = findViewById(R.id.tabPermissions);
+        TabItem tabWhitelist = findViewById(R.id.tabWhitelist);
+
 
         Button button1 = findViewById(R.id.btnGPS);
 
@@ -60,7 +69,5 @@ public class MainActivity extends AppCompatActivity{
             }
 
         });
-
-
     }
 }
