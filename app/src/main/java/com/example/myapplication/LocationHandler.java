@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -28,6 +29,10 @@ import java.util.Locale;
 public class LocationHandler {
         private String number;
         private Context context;
+        private Activity activity;
+
+
+
         private double lati;
         private double longi;
         private static final int LOCATION_REFRESH_TIME = 100;
@@ -57,13 +62,9 @@ public class LocationHandler {
         };
 
 
-
-        private FusedLocationProviderClient fusedLocationProviderClient;
-
         public LocationHandler(Context context, String number){
             this.number = number;
             this.context = context;
-
 
         }
 

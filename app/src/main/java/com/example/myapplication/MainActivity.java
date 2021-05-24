@@ -93,14 +93,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        LocationHandler locationHandler = new LocationHandler(this, "+31657792925");
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                locationHandler.sendLocation();
-            }
 
-        });
 
 
     }
