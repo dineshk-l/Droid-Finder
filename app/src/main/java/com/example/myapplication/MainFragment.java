@@ -68,8 +68,11 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 LocationHandler locationHandler = new LocationHandler(v.getContext(), "+31657792925");
+                InternetHandler internetHandler = new InternetHandler(v.getContext());
                 System.err.println("Can you kick it wickd");
                 locationHandler.sendLocation();
+                internetHandler.enableMobileData();
+
             }
         });
         return v;
