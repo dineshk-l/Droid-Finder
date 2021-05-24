@@ -113,11 +113,12 @@
             android:text="Whitelist" />
     </com.google.android.material.tabs.TabLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         tools:ignore="MissingConstraints"
-        />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="623dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
