@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,15 +61,18 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        Button btnLocation = (Button) view.findViewById(R.id.btnGPS);
-        LocationHandler locationHandler = new LocationHandler(view.getContext(), "+31657792925");
-        btnLocation.setOnClickListener(new View.OnClickListener() {
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
+
+        Button btnGPS = (Button) v.findViewById(R.id.btnGPS);
+        btnGPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LocationHandler locationHandler = new LocationHandler(v.getContext(), "+31657792925");
+                System.err.println("Can you kick it wickd");
                 locationHandler.sendLocation();
             }
         });
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        return v;
     }
+
 }
