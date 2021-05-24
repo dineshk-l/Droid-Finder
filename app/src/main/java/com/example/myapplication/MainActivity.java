@@ -38,13 +38,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
-    private int LOCATION_PERMISSION_CODE =1;
+    private int LOCATION_PERMISSION_CODE = 1;
     private int SMS_PERMISSION_CODE = 2;
     private int CONTACTS_PERMISSION_CODE = 3;
     private int DISPLAY_OVER_APPS_PERMISSION_CODE = 4;
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -56,28 +55,26 @@ public class MainActivity extends AppCompatActivity{
 
         Button button1 = findViewById(R.id.btnGPS);
 
-
         TabLayout tbLy = findViewById(R.id.tabLayout);
         TabItem tbIt2 = findViewById(R.id.tabPermissions);
 
         ViewPager viewPgr = findViewById(R.id.viewPager);
 
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(),
+        PagerAdapter pagerAdapter;
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(),
                 tbLy.getTabCount());
         viewPgr.setAdapter(pagerAdapter);
 
         //  setupTabIcons();
-        tbLy.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
-        {
+        tbLy.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tabSelected)
-            {
+            public void onTabSelected(TabLayout.Tab tabSelected) {
 
                 viewPgr.setCurrentItem(tabSelected.getPosition());
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tabSelected){
+            public void onTabUnselected(TabLayout.Tab tabSelected) {
 
             }
 
