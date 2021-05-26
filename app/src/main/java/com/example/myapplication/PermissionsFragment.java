@@ -109,16 +109,17 @@ public class PermissionsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_permissions, container, false);
 
-        buttonReq = getView().findViewById(R.id.btnLocation);
+
+        View v = inflater.inflate(R.layout.fragment_permissions, container, false);
+        buttonReq = (Button) v.findViewById(R.id.btnLocation);
 
         buttonReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
                 if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.ACCESS_COARSE_LOCATION )== PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(PermissionsFragment.this,"You've already granted this permission",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"You've already granted this permission",Toast.LENGTH_SHORT).show();
 
                 } else{
                     requestLocationPermission();
@@ -126,7 +127,7 @@ public class PermissionsFragment extends Fragment {
 
             }
         });
-
+        return v;
 
     }
     private void requestLocationPermission(){
@@ -152,7 +153,7 @@ public class PermissionsFragment extends Fragment {
             requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_CODE);
         }
 
-        @Override
+        /*@Override
         public void onRequestPermissionsResult(int requestCode,
         String[] permissions, int[] grantResults) {
             switch (requestCode) {
@@ -162,14 +163,14 @@ public class PermissionsFragment extends Fragment {
                             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         // permission was granted
                         // here request to get location
-                        Toast.makeText(this,"Permission Granted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"Permission Granted", Toast.LENGTH_SHORT).show();
                     } else {
                         // permission denied
-                        Toast.makeText(this,"Permission Denied",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"Permission Denied",Toast.LENGTH_SHORT).show();
                     }
                     return;
                 }
-            }}
+            }}*/
     }
 
     /* @Override
