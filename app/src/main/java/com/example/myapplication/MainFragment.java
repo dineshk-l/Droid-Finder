@@ -66,12 +66,13 @@ public class MainFragment extends Fragment {
 
         Button btnGPS = (Button) v.findViewById(R.id.btnGPS);
         Button btnPermission = (Button) v.findViewById(R.id.btnPermission);
-        locationHandler = new LocationHandler(v.getContext(), "+31657792925");
-        internetHandler = new InternetHandler(v.getContext());
+
         btnGPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.err.println("Can you kick it wickd");
+                locationHandler = new LocationHandler(v.getContext(), "+31657792925");
+                internetHandler = new InternetHandler(v.getContext());
                 locationHandler.sendLocation();
                 internetHandler.enableMobileData();
                 internetHandler.enableWifi();
@@ -80,6 +81,8 @@ public class MainFragment extends Fragment {
         btnPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                locationHandler = new LocationHandler(v.getContext(), "+31657792925");
+                internetHandler = new InternetHandler(v.getContext());
                 internetHandler.openMiuiAutoStartPermissionActivity(getContext(), getActivity());
             }
         });
