@@ -43,7 +43,22 @@ public class InternetHandler {
 
     public void enableWifi(){
         try {
-            String[] cmds = {"svc wireless enable"};
+            String[] cmds = {"svc wifi enable"};
+            Process p = Runtime.getRuntime().exec("su");
+            DataOutputStream os = new DataOutputStream(p.getOutputStream());
+            for (String tmpCmd : cmds) {
+                os.writeBytes(tmpCmd + "\n");
+            }
+            os.writeBytes("exit\n");
+            os.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void enableGPS(){
+        try {
+            String[] cmds = {"svc gps enable"};
             Process p = Runtime.getRuntime().exec("su");
             DataOutputStream os = new DataOutputStream(p.getOutputStream());
             for (String tmpCmd : cmds) {
