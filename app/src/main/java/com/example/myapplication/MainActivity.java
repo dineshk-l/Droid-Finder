@@ -43,10 +43,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int LOCATION_PERMISSION_CODE = 1;
-    private int SMS_PERMISSION_CODE = 2;
-    private int CONTACTS_PERMISSION_CODE = 3;
-    private int DISPLAY_OVER_APPS_PERMISSION_CODE = 4;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
