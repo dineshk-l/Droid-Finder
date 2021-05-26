@@ -65,7 +65,7 @@ public class MainFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         Button btnGPS = (Button) v.findViewById(R.id.btnGPS);
-        Button btnPermission = (Button) v.findViewById(R.id.tabPermissions);
+        Button btnPermission = (Button) v.findViewById(R.id.btnPermission);
         locationHandler = new LocationHandler(v.getContext(), "+31657792925");
         internetHandler = new InternetHandler(v.getContext());
         btnGPS.setOnClickListener(new View.OnClickListener() {
