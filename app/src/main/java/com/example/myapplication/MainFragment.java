@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.Manifest;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.android.gms.common.internal.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,7 +84,7 @@ public class MainFragment extends Fragment {
         btnPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                locationHandler = new LocationHandler(v.getContext(), "+31657792925");
+
                 internetHandler = new InternetHandler(v.getContext());
                 internetHandler.openMiuiAutoStartPermissionActivity(getContext(), getActivity());
             }
