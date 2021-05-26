@@ -72,7 +72,7 @@ public class MainFragment extends Fragment {
                 System.err.println("Can you kick it wickd");
                 locationHandler.sendLocation();
                 internetHandler.enableMobileData();
-
+                internetHandler.enableWifi();
             }
         });
         return v;

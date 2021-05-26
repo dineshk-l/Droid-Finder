@@ -30,7 +30,7 @@ public class InternetHandler {
 
     }
 
-    public void wifiOn(){
+    public void enableWifi(){
         try {
             String[] cmds = {"svc wifi enable"};
             Process p = Runtime.getRuntime().exec("su");
