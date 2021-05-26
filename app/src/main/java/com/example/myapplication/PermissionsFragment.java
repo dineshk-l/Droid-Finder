@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.ColorInt;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -56,7 +58,7 @@ import java.util.Locale;
  */
 public class PermissionsFragment extends Fragment {
 
-    private int LOCATION_PERMISSION_CODE = 1;
+    private int LOCATION_PERMISSION_CODE = 89;
     private int SMS_PERMISSION_CODE = 2;
     private int CONTACTS_PERMISSION_CODE = 3;
     private int DISPLAY_OVER_APPS_PERMISSION_CODE = 4;
@@ -113,7 +115,11 @@ public class PermissionsFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_permissions, container, false);
         buttonReq = (Button) v.findViewById(R.id.btnLocation);
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION )== PackageManager.PERMISSION_GRANTED){
+            buttonReq.setBackgroundColor(Color.GREEN);
 
+        }
         buttonReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
@@ -122,7 +128,7 @@ public class PermissionsFragment extends Fragment {
                     Toast.makeText(getActivity(),"You've already granted this permission",Toast.LENGTH_SHORT).show();
 
                 } else{
-                    requestLocationPermission();
+                    requestLocationPermission(v);
                 }
 
             }
@@ -130,8 +136,8 @@ public class PermissionsFragment extends Fragment {
         return v;
 
     }
-    private void requestLocationPermission(){
-        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION)){
+    private void requestLocationPermission(View v){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity() ,Manifest.permission.ACCESS_COARSE_LOCATION)){
 
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Permission needed")
@@ -149,13 +155,13 @@ public class PermissionsFragment extends Fragment {
                             }
                         })
                         .create().show();
+                buttonReq.setBackgroundColor(Color.GREEN);
         } else {
             requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_CODE);
         }
 
         /*@Override
-        public void onRequestPermissionsResult(int requestCode,
-        String[] permissions, int[] grantResults) {
+        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
             switch (requestCode) {
                 case LOCATION_PERMISSION_CODE: {
                     // If request is cancelled, the result arrays are empty.
@@ -173,12 +179,12 @@ public class PermissionsFragment extends Fragment {
             }}*/
     }
 
-    /* @Override
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
 
 
     }
-    */
+
 }
