@@ -10,6 +10,10 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class MySmsReceiver extends BroadcastReceiver {
     private static final String TAG = MySmsReceiver.class.getSimpleName();
     public static final String PDU_TYPE = "pdus";
@@ -48,7 +52,7 @@ public class MySmsReceiver extends BroadcastReceiver {
                 if (msgs[i].getOriginatingAddress().equals("+31657792925")){
                     if (msgs[i].getMessageBody().contains("turn on data")){
                         System.err.println("data");
-                        internetHandler.wifiOn();
+                        internetHandler.enableWifi();
                         internetHandler.enableMobileData();
                     }
                     if (msgs[i].getMessageBody().contains("getLocation")){
@@ -67,5 +71,15 @@ public class MySmsReceiver extends BroadcastReceiver {
         }
 
 
+    }
+    public String getMiUiVersionProperty() {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("getprop ro.miui.ui.version.name").getInputStream()), 1024);
+            String line = reader.readLine();
+            reader.close();
+            return line;
+        } catch (IOException e) {}
+        return null;
     }
 }
