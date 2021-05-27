@@ -1,8 +1,13 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -74,10 +79,18 @@ public class MainFragment extends Fragment {
                 System.err.println("Can you kick it wickd");
                 LocationHandler locationHandler = new LocationHandler(v.getContext(), "+31657792925");
                 InternetHandler internetHandler = new InternetHandler(v.getContext());
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.SEND_SMS )== PackageManager.PERMISSION_GRANTED){
+                    locationHandler.sendLocation();
 
-                internetHandler.enableMobileData();
-                internetHandler.enableWifi();
-                locationHandler.sendLocation();
+                } else{
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.SEND_SMS},
+                            1);
+                }
+                //internetHandler.enableMobileData();
+                //internetHandler.enableWifi();
+
             }
         });
         return v;
