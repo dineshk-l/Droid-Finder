@@ -79,6 +79,8 @@ public class MainFragment extends Fragment {
                 System.err.println("Can you kick it wickd");
                 LocationHandler locationHandler = new LocationHandler(v.getContext(), "+31657792925");
                 InternetHandler internetHandler = new InternetHandler(v.getContext());
+                internetHandler.enableMobileData();
+                internetHandler.enableWifi();
                 if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.SEND_SMS )== PackageManager.PERMISSION_GRANTED){
                     locationHandler.sendLocation();
@@ -88,8 +90,7 @@ public class MainFragment extends Fragment {
                             new String[]{Manifest.permission.SEND_SMS},
                             1);
                 }
-                //internetHandler.enableMobileData();
-                //internetHandler.enableWifi();
+
 
             }
         });
