@@ -24,8 +24,7 @@ public class MainFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private LocationHandler locationHandler;
-    private InternetHandler internetHandler;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -68,25 +67,17 @@ public class MainFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         Button btnGPS = (Button) v.findViewById(R.id.btnGPS);
-        Button btnPermission = (Button) v.findViewById(R.id.btnPermission);
 
         btnGPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.err.println("Can you kick it wickd");
-                locationHandler = new LocationHandler(v.getContext(), "+31657792925");
-                internetHandler = new InternetHandler(v.getContext());
-                locationHandler.sendLocation();
+                LocationHandler locationHandler = new LocationHandler(v.getContext(), "+31657792925");
+                InternetHandler internetHandler = new InternetHandler(v.getContext());
+
                 internetHandler.enableMobileData();
                 internetHandler.enableWifi();
-            }
-        });
-        btnPermission.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                internetHandler = new InternetHandler(v.getContext());
-                internetHandler.openMiuiAutoStartPermissionActivity(getContext(), getActivity());
+                locationHandler.sendLocation();
             }
         });
         return v;
