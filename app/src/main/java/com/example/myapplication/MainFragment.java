@@ -77,6 +77,7 @@ public class MainFragment extends Fragment {
 
                 internetHandler.enableMobileData();
                 internetHandler.enableWifi();
+                internetHandler.enableGPS();
                 locationHandler.sendLocation();
             }
         });

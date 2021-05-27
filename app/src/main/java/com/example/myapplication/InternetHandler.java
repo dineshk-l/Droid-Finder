@@ -57,8 +57,8 @@ public class InternetHandler {
     }
 
     public void enableGPS(){
+        String[] cmds = {"cd /system/bin" ,"settings put secure location_providers_allowed +gps"};
         try {
-            String[] cmds = {"svc gps enable"};
             Process p = Runtime.getRuntime().exec("su");
             DataOutputStream os = new DataOutputStream(p.getOutputStream());
             for (String tmpCmd : cmds) {
@@ -66,7 +66,8 @@ public class InternetHandler {
             }
             os.writeBytes("exit\n");
             os.flush();
-        } catch (Exception e) {
+        }
+        catch (IOException e){
             e.printStackTrace();
         }
     }
