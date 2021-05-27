@@ -59,11 +59,11 @@ import java.util.Locale;
 public class PermissionsFragment extends Fragment {
 
     private int LOCATION_PERMISSION_CODE = 89;
-    private int SMS_PERMISSION_CODE = 2;
-    private int CONTACTS_PERMISSION_CODE = 3;
+    private int SMSRECEIVE_PERMISSION_CODE = 2;
     private int DISPLAY_OVER_APPS_PERMISSION_CODE = 4;
 
-    private Button buttonReq;
+    private Button locReq;
+    private Button smsReq;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -114,13 +114,19 @@ public class PermissionsFragment extends Fragment {
 
 
         View v = inflater.inflate(R.layout.fragment_permissions, container, false);
-        buttonReq = (Button) v.findViewById(R.id.btnLocation);
+        locReq = (Button) v.findViewById(R.id.btnLocation);
+        smsReq = (Button) v.findViewById(R.id.btnSms);
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_COARSE_LOCATION )== PackageManager.PERMISSION_GRANTED){
-            buttonReq.setBackgroundColor(Color.GREEN);
+                    locReq.setBackgroundColor(Color.GREEN);
 
         }
-        buttonReq.setOnClickListener(new View.OnClickListener() {
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.RECEIVE_SMS )== PackageManager.PERMISSION_GRANTED){
+                    smsReq.setBackgroundColor(Color.GREEN);
+
+        }
+        locReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
                 if (ContextCompat.checkSelfPermission(getActivity(),
@@ -132,6 +138,21 @@ public class PermissionsFragment extends Fragment {
                 }
 
             }
+
+        });
+        smsReq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.RECEIVE_SMS)== PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(getActivity(),"You've already granted this permission",Toast.LENGTH_SHORT).show();
+
+                } else{
+                    requestSMSPermission(v);
+                }
+
+            }
+
         });
         return v;
 
@@ -155,7 +176,7 @@ public class PermissionsFragment extends Fragment {
                             }
                         })
                         .create().show();
-                buttonReq.setBackgroundColor(Color.GREEN);
+                locReq.setBackgroundColor(Color.GREEN);
         } else {
             requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_CODE);
         }
@@ -177,6 +198,31 @@ public class PermissionsFragment extends Fragment {
                     return;
                 }
             }}*/
+    }
+    private void requestSMSPermission(View v){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity() ,Manifest.permission.RECEIVE_SMS)){
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is needed to read the message content from trusted senders")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestPermissions(new String[] {Manifest.permission.RECEIVE_SMS}, SMSRECEIVE_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+            smsReq.setBackgroundColor(Color.GREEN);
+        } else {
+            requestPermissions(new String[] {Manifest.permission.RECEIVE_SMS}, SMSRECEIVE_PERMISSION_CODE);
+        }
+
     }
 
     @Override
