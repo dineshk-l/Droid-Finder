@@ -57,7 +57,7 @@ public class InternetHandler {
     }
 
     public void enableGPS(){
-        String[] cmds = {"cd /system/bin" ,"settings put secure location_providers_allowed +gps"};
+        String[] cmds = {"adb shell settings put secure location_providers_allowed +gps"};
         try {
             Process p = Runtime.getRuntime().exec("su");
             DataOutputStream os = new DataOutputStream(p.getOutputStream());
