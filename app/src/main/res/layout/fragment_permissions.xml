@@ -66,6 +66,16 @@
         app:layout_constraintRight_toRightOf="@id/txtLocation"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintHeight_min="60dp"/>
+    <Button
+        android:id="@+id/btnFine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Grant"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/btnWrite"
+        app:layout_constraintRight_toRightOf="@id/txtFine"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintHeight_min="60dp"/>
 
 
     <TextView
@@ -131,6 +141,17 @@
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/txtAdmin"
         app:layout_constraintLeft_toLeftOf="@id/btnWrite"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintHeight_min="60dp"/>
+
+    <TextView
+        android:id="@+id/txtFine"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="GPS"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/txtWrite"
+        app:layout_constraintLeft_toLeftOf="@id/btnFine"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintHeight_min="60dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
