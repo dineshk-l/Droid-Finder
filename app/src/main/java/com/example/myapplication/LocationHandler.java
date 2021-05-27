@@ -84,7 +84,8 @@ public class LocationHandler {
                     LOCATION_REFRESH_DISTANCE, myLocListener);
 
             if(mLocationManager != null){
-                location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
 
             if (location != null) {
