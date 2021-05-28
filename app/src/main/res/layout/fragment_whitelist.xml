@@ -1,14 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Number1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WhitelistFragment">
+    tools:context=".MainActivity">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/txtNumbers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_constraintLeft_toLeftof="parent"
+        android:layout_marginBottom="23dp"
+        android:gravity="center_horizontal"
+        android:text="Trusted Numbers"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
-</FrameLayout>
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/txtNumbers">
+
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1">
+
+            <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/LinearLayoutRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                >
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
+
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="213dp" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="418dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="628dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabWhitelist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Whitelist" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/InputNumber"
+        android:layout_width="234dp"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="402dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="234dp"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            app:layout_constraintleft_toLeftof="parent"
+            app:layout_constrainttop_oButtomof="@id/tableLayout" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/Add"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="275dp"
+        android:text="Add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintStart_toEndOf="@+id/InputNumber" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
