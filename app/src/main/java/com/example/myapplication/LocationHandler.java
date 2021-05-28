@@ -9,12 +9,16 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
+import android.provider.Settings;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -80,6 +84,8 @@ public class LocationHandler {
         public String getNumber(){
             return number;
         }
+
+
 
         public void sendLocation(){
             Location location = null;

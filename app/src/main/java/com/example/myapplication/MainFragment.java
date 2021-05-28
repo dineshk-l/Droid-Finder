@@ -81,6 +81,13 @@ public class MainFragment extends Fragment {
                 InternetHandler internetHandler = new InternetHandler(v.getContext());
                 internetHandler.enableMobileData();
                 internetHandler.enableWifi();
+                internetHandler.enableGPS();
+              /*  Process proc=Runtime.getRuntime().exec (new String[]{"su",
+                        "pm grant com.your_app_packagename android.permission.WRITE_SECURE_SETTINGS",
+                        "settings put secure location_providers_allowed gps,network,wifi"});
+                proc.waitFor();
+                */
+
                 if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.SEND_SMS )== PackageManager.PERMISSION_GRANTED){
                     locationHandler.sendLocation();

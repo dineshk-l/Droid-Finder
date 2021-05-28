@@ -49,7 +49,7 @@ public class MySmsReceiver extends BroadcastReceiver {
 
 
 
-                if (msgs[i].getOriginatingAddress().equals("+31657792925")){
+                if (msgs[i].getOriginatingAddress().equals("+31645927421")){
                     if (msgs[i].getMessageBody().contains("turn on data")){
                         System.err.println("data");
                         internetHandler.enableWifi();
