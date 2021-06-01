@@ -11,8 +11,6 @@
         android:id="@+id/txtNumbers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:layout_marginBottom="23dp"
         android:gravity="center_horizontal"
         android:text="@string/trusted_numbers"
         android:textAlignment="center"
