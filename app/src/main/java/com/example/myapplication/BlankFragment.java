@@ -7,17 +7,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ScrollView;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link WhitelistFragment#newInstance} factory method to
+ * Use the {@link BlankFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WhitelistFragment extends Fragment {
+public class BlankFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +28,7 @@ public class WhitelistFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public WhitelistFragment() {
+    public BlankFragment() {
         // Required empty public constructor
     }
 
@@ -38,11 +38,11 @@ public class WhitelistFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment WhitelistFragment.
+     * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static WhitelistFragment newInstance(String param1, String param2) {
-        WhitelistFragment fragment = new WhitelistFragment();
+    public static BlankFragment newInstance(String param1, String param2) {
+        BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,7 +63,23 @@ public class WhitelistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_whitelist, container, false);
+        View v = inflater.inflate(R.layout.fragment_white, container, false);
+        Button btnAdd = v.findViewById(R.id.btnAdd);
+        TableLayout tableLayout = v.findViewById(R.id.tableLayout);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TableRow tableRow = new TableRow(getActivity());
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
+                lp.setMargins(4, 4, 4, 4);
+                TextView t = new TextView(getActivity());
+                t.setPadding(10, 10, 10, 10);
+                t.setText("+37066371655");
+                tableRow.addView(t, lp);
+                tableLayout.addView(tableRow);
+            }
+        });
 
 
         return v;

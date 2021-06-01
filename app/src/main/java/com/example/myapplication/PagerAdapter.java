@@ -20,7 +20,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new PermissionsFragment();
             case 2:
-                return new WhitelistFragment();
+                return new BlankFragment();
             default:
                 return null;
         }
