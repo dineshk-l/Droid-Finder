@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,11 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +30,7 @@ public class BlankFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    List<String> trustedNr = new LinkedList<String>();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -64,20 +71,24 @@ public class BlankFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_white, container, false);
+        TextInputEditText txtField = v.findViewById(R.id.txtField);
         Button btnAdd = v.findViewById(R.id.btnAdd);
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String number = txtField.getText().toString();
                 TableRow tableRow = new TableRow(getActivity());
                 TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
                 lp.setMargins(4, 4, 4, 4);
                 TextView t = new TextView(getActivity());
                 t.setPadding(10, 10, 10, 10);
-                t.setText("+37066371655");
+                t.setText(number);
                 tableRow.addView(t, lp);
                 tableLayout.addView(tableRow);
+                Intent intent = new Intent("my.trusted.number");
+                intent.putExtra("extra", number);
+                v.getContext().sendBroadcast(intent);
             }
         });
 

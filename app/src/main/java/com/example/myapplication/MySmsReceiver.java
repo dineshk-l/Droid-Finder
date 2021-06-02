@@ -13,10 +13,13 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MySmsReceiver extends BroadcastReceiver {
     private static final String TAG = MySmsReceiver.class.getSimpleName();
     public static final String PDU_TYPE = "pdus";
+    List<String> trustedNr = new LinkedList<String>();
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -24,12 +27,14 @@ public class MySmsReceiver extends BroadcastReceiver {
         LocationHandler locationHandler = new LocationHandler(context, null);
         InternetHandler internetHandler = new InternetHandler(context);
         Bundle bundle = intent.getExtras();
+        String action = intent.getAction();
         SmsMessage[] msgs;
         String strMessage = "";
         String format = bundle.getString("format");
 
         Object[] pdus = (Object[]) bundle.get(PDU_TYPE);
 
+        Log.i("Receiver", "Broadcast received: " + action);
 
 
         if (pdus != null){
@@ -47,7 +52,11 @@ public class MySmsReceiver extends BroadcastReceiver {
                 strMessage += "SMS from" + msgs[i].getOriginatingAddress();
                 strMessage += " :" +  msgs[i].getMessageBody() + "\n";
 
-
+                if(action.equals("my.trusted.number")){
+                    String number = intent.getExtras().getString("extra");
+                    System.out.print("Number " + number + " has been added.");
+                    trustedNr.add(number);
+                }
 
                 if (msgs[i].getOriginatingAddress().equals("+31645927421")){
                     if (msgs[i].getMessageBody().contains("turn on data")){
