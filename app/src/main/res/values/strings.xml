@@ -8,4 +8,5 @@
     <string name="whitelist">Whitelist</string>
     <string name="phone_number">Phone Number</string>
     <string name="add">Add</string>
+    <string name="grant">Grant</string>
 </resources>

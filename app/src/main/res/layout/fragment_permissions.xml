@@ -10,72 +10,34 @@
         android:id="@+id/btnSms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Grant"
-        app:layout_constraintBottom_toTopOf="@id/btnContacts"
-        app:layout_constraintRight_toRightOf="@id/txtSms"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
-
-    <Button
-        android:id="@+id/btnContacts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Grant"
-        app:layout_constraintBottom_toTopOf="@id/btnDisplay"
-        app:layout_constraintRight_toRightOf="@id/txtDisplay"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
-
-    <Button
-        android:id="@+id/btnDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Grant"
-        app:layout_constraintBottom_toTopOf="@id/btnAdmin"
-        app:layout_constraintRight_toRightOf="@id/txtDisplay"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
-
-    <Button
-        android:id="@+id/btnAdmin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Grant"
-        app:layout_constraintBottom_toTopOf="@id/btnWrite"
-        app:layout_constraintRight_toRightOf="@id/txtAdmin"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
-
-    <Button
-        android:id="@+id/btnWrite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Grant"
-        app:layout_constraintTop_toBottomOf="@id/btnAdmin"
-        app:layout_constraintRight_toRightOf="@id/txtWrite"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
+        android:text="@string/grant"
+        app:layout_constraintTop_toBottomOf="@id/btnLocation"
+        app:layout_constraintBottom_toTopOf="@id/btnFine"
+        app:layout_constraintLeft_toRightOf="@id/txtSms"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHeight_min="60dp" />
 
     <Button
         android:id="@+id/btnLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Grant"
+        android:text="@string/grant"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/btnSms"
-        app:layout_constraintRight_toRightOf="@id/txtLocation"
-        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/txtLocation"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHeight_min="60dp"/>
+
     <Button
         android:id="@+id/btnFine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Grant"
+        android:text="@string/grant"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/btnWrite"
-        app:layout_constraintRight_toRightOf="@id/txtFine"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
+        app:layout_constraintHeight_min="60dp"
+        app:layout_constraintTop_toBottomOf="@id/btnSms"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/txtFine" />
 
 
     <TextView
@@ -84,10 +46,11 @@
         android:layout_height="wrap_content"
         android:text="Location"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/txtSms"
-        app:layout_constraintLeft_toLeftOf="@id/btnLocation"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btnLocation"
+        app:layout_constraintHeight_min="60dp"
+/>
 
     <TextView
         android:id="@+id/txtSms"
@@ -95,54 +58,10 @@
         android:layout_height="wrap_content"
         android:text="SMS"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/txtContacts"
-        app:layout_constraintLeft_toLeftOf="@id/btnSms"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
-
-    <TextView
-        android:id="@+id/txtContacts"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:text="Contacts"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/txtDisplay"
-        app:layout_constraintLeft_toLeftOf="@id/btnContacts"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
-
-    <TextView
-        android:id="@+id/txtDisplay"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:text="Display over apps"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/txtAdmin"
-        app:layout_constraintLeft_toLeftOf="@id/btnDisplay"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
-
-    <TextView
-        android:id="@+id/txtAdmin"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:text="Device Admin"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/txtWrite"
-        app:layout_constraintLeft_toLeftOf="@id/btnAdmin"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
-
-    <TextView
-        android:id="@+id/txtWrite"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:text="WRITE_SECURE_SETTINGS"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/txtAdmin"
-        app:layout_constraintLeft_toLeftOf="@id/btnWrite"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintHeight_min="60dp"/>
+        app:layout_constraintTop_toBottomOf="@id/txtLocation"
+        app:layout_constraintRight_toLeftOf="@id/btnSms"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHeight_min="60dp" />
 
     <TextView
         android:id="@+id/txtFine"
@@ -150,8 +69,8 @@
         android:layout_height="wrap_content"
         android:text="GPS"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/txtWrite"
-        app:layout_constraintLeft_toLeftOf="@id/btnFine"
-        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtSms"
+        app:layout_constraintRight_toLeftOf="@id/btnFine"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintHeight_min="60dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
