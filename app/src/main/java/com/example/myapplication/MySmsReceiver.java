@@ -38,12 +38,7 @@ public class MySmsReceiver extends BroadcastReceiver {
         String format = bundle.getString("format");
         Object[] pdus = (Object[]) bundle.get(PDU_TYPE);
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(BlankFragment.SHARED_PREFS, Context.MODE_PRIVATE);
 
-        number = sharedPreferences.getString(BlankFragment.TEXT, "");
-        if (number != null){
-            Log.i("SharedPrefs", number);
-        }
 
 
 
@@ -62,9 +57,9 @@ public class MySmsReceiver extends BroadcastReceiver {
                 strMessage += "SMS from" + msgs[i].getOriginatingAddress();
                 strMessage += " :" +  msgs[i].getMessageBody() + "\n";
 
+                updateNumbers(context);
 
-
-                if (msgs[i].getOriginatingAddress().equals("+37066371655")){
+                if (trustedNr.contains(msgs[i].getOriginatingAddress())){
                     if (msgs[i].getMessageBody().contains("turn on data")){
                         System.err.println("data");
                         internetHandler.enableWifi();
@@ -86,5 +81,18 @@ public class MySmsReceiver extends BroadcastReceiver {
         }
 
 
+    }
+
+    private void updateNumbers(Context context) {
+        trustedNr.clear();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(BlankFragment.SHARED_PREFS, Context.MODE_PRIVATE);
+
+        int i = sharedPreferences.getInt(BlankFragment.COUNTER, 0);
+        System.err.println(i);
+        while(i > 0){
+            Log.d("Number" + i, sharedPreferences.getString(BlankFragment.TEXT + i, "a"));
+            trustedNr.add(sharedPreferences.getString(BlankFragment.TEXT + i, ""));
+            i--;
+        }
     }
 }

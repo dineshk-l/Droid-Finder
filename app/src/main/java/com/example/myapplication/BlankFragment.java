@@ -43,7 +43,10 @@ public class BlankFragment extends Fragment {
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String TEXT = "text";
+    public static final String COUNTER = "counter";
     List<String> trustedNr = new LinkedList<String>();
+
+
 
     private String mParam1;
     private String mParam2;
@@ -87,15 +90,12 @@ public class BlankFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_white, container, false);
         TextInputEditText txtField = v.findViewById(R.id.txtField);
         Button btnAdd = v.findViewById(R.id.btnAdd);
+        Button btnSave = v.findViewById(R.id.btnSave);
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
+        final SharedPreferences[] sharedPreferences = {getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)};
+        SharedPreferences.Editor editor = sharedPreferences[0].edit();
+        final int[] i = {sharedPreferences[0].getInt(COUNTER, 0)};
 
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(TEXT, "+37066371655");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            editor.apply();
-            Toast.makeText(getActivity(), "Data saved", Toast.LENGTH_SHORT).show();
-        }
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,11 +108,23 @@ public class BlankFragment extends Fragment {
                 t.setPadding(10, 10, 10, 10);
                 t.setText(number);
                 tableRow.addView(t, lp);
-                trustedNr.add(number);
-                tableLayout.addView(tableRow);
+                i[0] = i[0] +1;
+                System.err.println(i[0]);
+                editor.putInt(COUNTER, i[0]);
+                editor.putString(TEXT + i[0], number);
 
+                tableLayout.addView(tableRow);
             }
         });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.apply();
+                Toast.makeText(getActivity(), "Data saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
         return v;
