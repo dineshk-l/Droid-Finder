@@ -1,19 +1,12 @@
 package com.example.myapplication;
 
-import android.annotation.TargetApi;
-import android.content.BroadcastReceiver;
+
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import android.telephony.SmsMessage;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +20,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,45 +80,77 @@ public class BlankFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_white, container, false);
-        TextInputEditText txtField = v.findViewById(R.id.txtField);
-        Button btnAdd = v.findViewById(R.id.btnAdd);
-        Button btnSave = v.findViewById(R.id.btnSave);
-        TableLayout tableLayout = v.findViewById(R.id.tableLayout);
         final SharedPreferences[] sharedPreferences = {getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)};
         SharedPreferences.Editor editor = sharedPreferences[0].edit();
+        TextInputEditText txtField = v.findViewById(R.id.txtField);
+        Button btnAdd = v.findViewById(R.id.btnAdd);
+        TableLayout tableLayout = v.findViewById(R.id.tableLayout);
+        Button btnClear = v.findViewById(R.id.btnClear);
         final int[] i = {sharedPreferences[0].getInt(COUNTER, 0)};
+        updateTables(tableLayout);
 
-
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.clear();
+                editor.apply();
+                tableLayout.removeAllViews();
+            }
+        });
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String number = txtField.getText().toString();
-                TableRow tableRow = new TableRow(getActivity());
-                TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
-                lp.setMargins(4, 4, 4, 4);
-                TextView t = new TextView(getActivity());
-                t.setPadding(10, 10, 10, 10);
-                t.setText(number);
-                tableRow.addView(t, lp);
-                i[0] = i[0] +1;
-                System.err.println(i[0]);
-                editor.putInt(COUNTER, i[0]);
-                editor.putString(TEXT + i[0], number);
-
-                tableLayout.addView(tableRow);
+                if(checkForDuplicate(number)){
+                    createRow(tableLayout, number);
+                    i[0] = i[0] +1;
+                    editor.putInt(COUNTER, i[0]);
+                    editor.putString(TEXT + i[0], number);
+                    editor.apply();
+                    Toast.makeText(getActivity(), "Data saved", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(), "You already have this number saved", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.apply();
-                Toast.makeText(getActivity(), "Data saved", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
 
         return v;
+    }
+
+    private boolean checkForDuplicate(String number) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        int i = sharedPreferences.getInt(COUNTER, 0);
+        while (i > 0){
+            String nr = sharedPreferences.getString(TEXT + i, "");
+            i--;
+            if (nr.equals(number)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void createRow(TableLayout tableLayout, String number) {
+        TableRow tableRow = new TableRow(getActivity());
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
+        lp.setMargins(4, 4, 4, 4);
+        TextView t = new TextView(getActivity());
+        t.setPadding(10, 10, 10, 10);
+        t.setText(number);
+        tableRow.addView(t, lp);
+        tableLayout.addView(tableRow);
+    }
+
+    private void updateTables(TableLayout tableLayout){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        int i = sharedPreferences.getInt(COUNTER, 0);
+        while(i > 0){
+            String number = sharedPreferences.getString(TEXT + i, "");
+            i--;
+            createRow(tableLayout, number);
+        }
     }
 }

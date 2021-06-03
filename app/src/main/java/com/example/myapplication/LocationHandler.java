@@ -1,38 +1,15 @@
 package com.example.myapplication;
 
-import android.Manifest;
+
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.CancellationSignal;
-import android.provider.Settings;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
-import static androidx.core.app.ActivityCompat.requestPermissions;
 
 public class LocationHandler {
         private String number;

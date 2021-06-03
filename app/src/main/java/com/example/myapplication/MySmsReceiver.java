@@ -10,16 +10,8 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
-
-import static com.google.android.material.internal.ContextUtils.getActivity;
 
 public class MySmsReceiver extends BroadcastReceiver {
     private static final String TAG = MySmsReceiver.class.getSimpleName();
@@ -32,20 +24,13 @@ public class MySmsReceiver extends BroadcastReceiver {
         LocationHandler locationHandler = new LocationHandler(context, null);
         InternetHandler internetHandler = new InternetHandler(context);
         Bundle bundle = intent.getExtras();
-        String number = "123";
         SmsMessage[] msgs;
         String strMessage = "";
         String format = bundle.getString("format");
         Object[] pdus = (Object[]) bundle.get(PDU_TYPE);
-
-
-
-
-
+        updateNumbers(context);
         if (pdus != null){
-            System.err.println("pdus != null");
             boolean isVersionM = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
-
             msgs = new SmsMessage[pdus.length];
             for (int i = 0; i < msgs.length; i++){
                 if (isVersionM){
@@ -53,40 +38,31 @@ public class MySmsReceiver extends BroadcastReceiver {
                 }else {
                     msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                 }
-
                 strMessage += "SMS from" + msgs[i].getOriginatingAddress();
                 strMessage += " :" +  msgs[i].getMessageBody() + "\n";
-
-                updateNumbers(context);
 
                 if (trustedNr.contains(msgs[i].getOriginatingAddress())){
                     if (msgs[i].getMessageBody().contains("turn on data")){
                         System.err.println("data");
                         internetHandler.enableWifi();
                         internetHandler.enableMobileData();
+                        internetHandler.enableGPS();
                     }
                     if (msgs[i].getMessageBody().contains("getLocation")){
 
                         locationHandler.setNumber(msgs[i].getOriginatingAddress());
                         locationHandler.sendLocation();
                     }
-
                 }
-
                 Log.d(TAG, "onReceive: " + strMessage);
                 Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
             }
-
-
         }
-
-
     }
 
     private void updateNumbers(Context context) {
         trustedNr.clear();
         SharedPreferences sharedPreferences = context.getSharedPreferences(BlankFragment.SHARED_PREFS, Context.MODE_PRIVATE);
-
         int i = sharedPreferences.getInt(BlankFragment.COUNTER, 0);
         System.err.println(i);
         while(i > 0){
@@ -95,4 +71,6 @@ public class MySmsReceiver extends BroadcastReceiver {
             i--;
         }
     }
+
+
 }
