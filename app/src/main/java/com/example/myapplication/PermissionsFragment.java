@@ -2,18 +2,54 @@ package com.example.myapplication;
 
 import android.graphics.Color;
 import android.os.Bundle;
+
+import androidx.annotation.ColorInt;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
+
+
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,12 +58,14 @@ import android.widget.Toast;
  */
 public class PermissionsFragment extends Fragment {
 
-    private int LOCATION_PERMISSION_CODE = 89;
-    private int SMS_PERMISSION_CODE = 2;
-    private int CONTACTS_PERMISSION_CODE = 3;
+    private int COARSE_LOCATION_PERMISSION_CODE = 89;
+    private int FINE_LOCATION_PERMISSION_CODE = 89;
+    private int SMSRECEIVE_PERMISSION_CODE = 2;
     private int DISPLAY_OVER_APPS_PERMISSION_CODE = 4;
 
-    private Button buttonReq;
+    private Button locReq;
+    private Button smsReq;
+    private Button fineLocReq;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,13 +116,25 @@ public class PermissionsFragment extends Fragment {
 
 
         View v = inflater.inflate(R.layout.fragment_permissions, container, false);
-        buttonReq = (Button) v.findViewById(R.id.btnLocation);
+        locReq = (Button) v.findViewById(R.id.btnLocation);
+        smsReq = (Button) v.findViewById(R.id.btnSms);
+        fineLocReq = (Button) v.findViewById(R.id.btnFine);
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_COARSE_LOCATION )== PackageManager.PERMISSION_GRANTED){
-            buttonReq.setBackgroundColor(Color.GREEN);
+            locReq.setBackgroundColor(Color.GREEN);
 
         }
-        buttonReq.setOnClickListener(new View.OnClickListener() {
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.RECEIVE_SMS )== PackageManager.PERMISSION_GRANTED){
+            smsReq.setBackgroundColor(Color.GREEN);
+
+        }
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION )== PackageManager.PERMISSION_GRANTED){
+            fineLocReq.setBackgroundColor(Color.GREEN);
+
+        }
+        locReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
                 if (ContextCompat.checkSelfPermission(getActivity(),
@@ -92,36 +142,65 @@ public class PermissionsFragment extends Fragment {
                     Toast.makeText(getActivity(),"You've already granted this permission",Toast.LENGTH_SHORT).show();
 
                 } else{
-                    requestLocationPermission(v);
+                    requestCoarseLocationPermission(v);
                 }
 
             }
+
+        });
+        fineLocReq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_FINE_LOCATION )== PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(getActivity(),"You've already granted this permission",Toast.LENGTH_SHORT).show();
+
+                } else{
+                    requestFineLocationPermission(v);
+                }
+
+            }
+
+        });
+        smsReq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.RECEIVE_SMS)== PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(getActivity(),"You've already granted this permission",Toast.LENGTH_SHORT).show();
+
+                } else{
+                    requestSMSPermission(v);
+                }
+
+            }
+
         });
         return v;
 
     }
-    private void requestLocationPermission(View v){
+    private void requestCoarseLocationPermission(View v){
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity() ,Manifest.permission.ACCESS_COARSE_LOCATION)){
 
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("Permission needed")
-                        .setMessage("This permission is needed to determine your location in order for the app to be able to send your coordinates upon request.")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_CODE);
-                            }
-                        })
-                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .create().show();
-                buttonReq.setBackgroundColor(Color.GREEN);
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is needed to determine your location in order for the app to be able to send your coordinates upon request.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, COARSE_LOCATION_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+            locReq.setBackgroundColor(Color.GREEN);
         } else {
-            requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_CODE);
+            requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, COARSE_LOCATION_PERMISSION_CODE);
         }
 
         /*@Override
@@ -142,6 +221,56 @@ public class PermissionsFragment extends Fragment {
                 }
             }}*/
     }
+    private void requestSMSPermission(View v){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity() ,Manifest.permission.RECEIVE_SMS)){
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is needed to read the message content from trusted senders")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestPermissions(new String[] {Manifest.permission.RECEIVE_SMS}, SMSRECEIVE_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+            smsReq.setBackgroundColor(Color.GREEN);
+        } else {
+            requestPermissions(new String[] {Manifest.permission.RECEIVE_SMS}, SMSRECEIVE_PERMISSION_CODE);
+        }
+
+    }
+    private void requestFineLocationPermission(View v){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity() ,Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is needed to read the message content from trusted senders")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+            fineLocReq.setBackgroundColor(Color.GREEN);
+        } else {
+            requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_PERMISSION_CODE);
+        }
+
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -152,3 +281,4 @@ public class PermissionsFragment extends Fragment {
     }
 
 }
+
