@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -35,15 +36,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
-
+    List<String> myNumbers = new LinkedList<String>();
+    public static final String KEY = "com.example.myapplication.EXTRA_NUMBER";
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -56,10 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button button1 = findViewById(R.id.btnGPS);
-
         TabLayout tbLy = findViewById(R.id.tabLayout);
-        TabItem tbIt2 = findViewById(R.id.tabPermissions);
 
         ViewPager viewPgr = findViewById(R.id.viewPager);
 
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 tbLy.getTabCount());
         viewPgr.setAdapter(pagerAdapter);
 
+
         //  setupTabIcons();
         tbLy.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
                 viewPgr.setCurrentItem(tabSelected.getPosition());
             }
+
+
 
             @Override
             public void onTabUnselected(TabLayout.Tab tabSelected) {
@@ -100,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.example_menu,menu);
         return true;
+    }
+
+    public List<String> getList(){
+        return myNumbers;
     }
 
 

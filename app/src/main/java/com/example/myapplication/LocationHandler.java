@@ -42,17 +42,13 @@ public class LocationHandler {
 
 
 
-        private double lati;
-        private double longi;
         private static final int LOCATION_REFRESH_TIME = 100;
         private static final int LOCATION_REFRESH_DISTANCE = 0;
-        LocationManager mLocationManager;
-        private final LocationListener myLocListener = new LocationListener() {
+        LocationManager mLocationManager;//we need location manager
+        private final LocationListener myLocListener = new LocationListener() {//we add a new location listener
             @Override
             public void onLocationChanged(@NonNull Location location) {
-                lati = location.getLatitude();
-                longi = location.getLongitude();
-                return;
+                Log.i("LocationListener", "Location Changed");
             }
             @Override
             public void onProviderEnabled(@NonNull String provider) {
@@ -74,7 +70,6 @@ public class LocationHandler {
         public LocationHandler(Context context, String number){
             this.number = number;
             this.context = context;
-
         }
 
         public void setNumber(String number){
@@ -88,23 +83,21 @@ public class LocationHandler {
 
 
         public void sendLocation(){
-            Location location = null;
-            mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            Location location = null;//set the location to null, just to be sure we get one later
+            mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);//initialize location manager
 
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-                    LOCATION_REFRESH_DISTANCE, myLocListener);
+                    LOCATION_REFRESH_DISTANCE, myLocListener);//request updates
 
-            if(mLocationManager != null){
+            if(mLocationManager != null){//if manager is not null then get the location
 
                 location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
 
-            if (location != null) {
+            if (location != null) {//if location is not null then send the message with properties
 
                 String messageToSend = ("Latitude: " + location.getLatitude() + " Longitude: " + location.getLongitude());
-                System.err.println(number);
-                System.err.println("Success");
-                System.err.println("Latitude: " + location.getLatitude() + " Longitude: " + location.getLongitude());
+                Log.i("LocationHandler","Latitude: " + location.getLatitude() + " Longitude: " + location.getLongitude());
                 SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null, null);
 
 

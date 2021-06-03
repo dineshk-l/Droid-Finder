@@ -29,14 +29,14 @@ public class InternetHandler {
     public void enableMobileData(){
 
         try {
-            String[] cmds = {"svc data enable"};
-            Process p = Runtime.getRuntime().exec("su");
-            DataOutputStream os = new DataOutputStream(p.getOutputStream());
+            String[] cmds = {"svc data enable"};//command for super-user
+            Process p = Runtime.getRuntime().exec("su");//we are using super-user process
+            DataOutputStream os = new DataOutputStream(p.getOutputStream());//we need to stream the info to the shell of the phone
             for (String tmpCmd : cmds) {
-                os.writeBytes(tmpCmd + "\n");
+                os.writeBytes(tmpCmd + "\n");//writing all the commands to shell, in this case we have one
             }
-            os.writeBytes("exit\n");
-            os.flush();
+            os.writeBytes("exit\n");//exiting
+            os.flush();//clearing data
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,6 +60,7 @@ public class InternetHandler {
 
     public void enableGPS(){
         String[] cmds = {"pm grant com.your_app_packagename android.permission.WRITE_SECURE_SETTINGS","settings put secure location_mode 3"};
+        //we have different command for enabling gps, but the other part of this method is the same.
         try {
             Process p = Runtime.getRuntime().exec("su");
             DataOutputStream os = new DataOutputStream(p.getOutputStream());
@@ -106,40 +107,6 @@ public class InternetHandler {
                     Settings.Secure.LOCATION_PROVIDERS_ALLOWED,
                     newSet);
         } catch(Exception e) {}
-    }
-    public void openMiuiAutoStartPermissionActivity(Context context, Activity activity) {
-        Intent intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
-        String ROM = getMiUiVersionProperty();
-        if (TextUtils.equals(ROM, "V5")) {
-            PackageInfo pInfo = null;
-            try {
-                pInfo = context.getPackageManager().getPackageInfo(                                                      context.getPackageName(), 0);
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-            intent.setClassName("com.android.settings",    "com.miui.securitycenter. permission.AppPermissionsEditor");
-            intent.putExtra("extra_package_uid", pInfo.applicationInfo.uid);
-        } else if (TextUtils.equals(ROM, "V6") || TextUtils.equals(ROM, "V7") || TextUtils.equals(ROM, "V8")) {
-            intent.setClassName( "com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity");
-            intent.putExtra( "extra_pkgname", context.getPackageName());
-        } else {
-            intent.setClassName( "com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity");
-            intent.putExtra( "extra_pkgname", context.getPackageName());
-        }
-        if (isIntentAvailable(context, intent) && (context instanceof Activity)) {
-            ((Activity) context).startActivityForResult(intent, AUTO_START_ENABLE_REQUEST);
-        }
-    }
-
-    public String getMiUiVersionProperty() {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("getprop ro.miui.ui.version.name").getInputStream()), 1024);
-            String line = reader.readLine();
-            reader.close();
-            return line;
-        } catch (IOException e) {}
-        return null;
     }
 
     public static boolean isIntentAvailable(Context context, Intent intent) {

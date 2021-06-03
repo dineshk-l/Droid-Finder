@@ -1,11 +1,19 @@
 package com.example.myapplication;
 
+import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.telephony.SmsMessage;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +21,13 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,12 +36,15 @@ import java.util.List;
  */
 public class BlankFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String TEXT = "text";
     List<String> trustedNr = new LinkedList<String>();
-    // TODO: Rename and change types of parameters
+
     private String mParam1;
     private String mParam2;
 
@@ -66,6 +79,7 @@ public class BlankFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,6 +88,15 @@ public class BlankFragment extends Fragment {
         TextInputEditText txtField = v.findViewById(R.id.txtField);
         Button btnAdd = v.findViewById(R.id.btnAdd);
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(TEXT, "+37066371655");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editor.apply();
+            Toast.makeText(getActivity(), "Data saved", Toast.LENGTH_SHORT).show();
+        }
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,10 +108,9 @@ public class BlankFragment extends Fragment {
                 t.setPadding(10, 10, 10, 10);
                 t.setText(number);
                 tableRow.addView(t, lp);
+                trustedNr.add(number);
                 tableLayout.addView(tableRow);
-                Intent intent = new Intent("my.trusted.number");
-                intent.putExtra("extra", number);
-                v.getContext().sendBroadcast(intent);
+
             }
         });
 

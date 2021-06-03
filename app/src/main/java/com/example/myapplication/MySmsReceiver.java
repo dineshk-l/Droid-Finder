@@ -4,17 +4,22 @@ import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.google.android.material.internal.ContextUtils.getActivity;
 
 public class MySmsReceiver extends BroadcastReceiver {
     private static final String TAG = MySmsReceiver.class.getSimpleName();
@@ -27,14 +32,19 @@ public class MySmsReceiver extends BroadcastReceiver {
         LocationHandler locationHandler = new LocationHandler(context, null);
         InternetHandler internetHandler = new InternetHandler(context);
         Bundle bundle = intent.getExtras();
-        String action = intent.getAction();
+        String number = "123";
         SmsMessage[] msgs;
         String strMessage = "";
         String format = bundle.getString("format");
-
         Object[] pdus = (Object[]) bundle.get(PDU_TYPE);
 
-        Log.i("Receiver", "Broadcast received: " + action);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(BlankFragment.SHARED_PREFS, Context.MODE_PRIVATE);
+
+        number = sharedPreferences.getString(BlankFragment.TEXT, "");
+        if (number != null){
+            Log.i("SharedPrefs", number);
+        }
+
 
 
         if (pdus != null){
@@ -52,13 +62,9 @@ public class MySmsReceiver extends BroadcastReceiver {
                 strMessage += "SMS from" + msgs[i].getOriginatingAddress();
                 strMessage += " :" +  msgs[i].getMessageBody() + "\n";
 
-                if(action.equals("my.trusted.number")){
-                    String number = intent.getExtras().getString("extra");
-                    System.out.print("Number " + number + " has been added.");
-                    trustedNr.add(number);
-                }
 
-                if (msgs[i].getOriginatingAddress().equals("+31645927421")){
+
+                if (msgs[i].getOriginatingAddress().equals("+37066371655")){
                     if (msgs[i].getMessageBody().contains("turn on data")){
                         System.err.println("data");
                         internetHandler.enableWifi();
@@ -80,15 +86,5 @@ public class MySmsReceiver extends BroadcastReceiver {
         }
 
 
-    }
-    public String getMiUiVersionProperty() {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("getprop ro.miui.ui.version.name").getInputStream()), 1024);
-            String line = reader.readLine();
-            reader.close();
-            return line;
-        } catch (IOException e) {}
-        return null;
     }
 }
