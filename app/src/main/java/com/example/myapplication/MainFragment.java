@@ -71,7 +71,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
-        Button btnGPS = (Button) v.findViewById(R.id.btnGPS);
+       /* Button btnGPS = (Button) v.findViewById(R.id.btnGPS);
 
         btnGPS.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +86,7 @@ public class MainFragment extends Fragment {
                         "pm grant com.your_app_packagename android.permission.WRITE_SECURE_SETTINGS",
                         "settings put secure location_providers_allowed gps,network,wifi"});
                 proc.waitFor();
-                */
+
 
                 if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.SEND_SMS )== PackageManager.PERMISSION_GRANTED){
@@ -101,6 +101,8 @@ public class MainFragment extends Fragment {
 
             }
         });
+        return v;
+        */
         return v;
     }
 

@@ -9,4 +9,5 @@
     <string name="phone_number">Phone Number</string>
     <string name="add">Add</string>
     <string name="grant">Grant</string>
+    <string name="welcome_to_droidfinder_steps">Welcome to DroidFinder!           \n\nInitialization Steps:       \n\n1.  Make sure that you have granted all the permissions the app requires in the permissions tab      \n\n 2.  Make sure that your running this on a rooted Android Device with a root manager (like Magisk Manager)       \n \n 3.  Insert trusted number(s) from whom you\'d like to accept requests to toggle phone radio functionality and respond with location coordinates in the Whitelist tab.      \n \n  4.  Make sure to test the application and make sure all permissions (including superuser rights) are granted for an indefinite period</string>
 </resources>
