@@ -50,6 +50,7 @@ public class MySmsReceiver extends BroadcastReceiver {
                         locationHandler.setNumber(msgs[i].getOriginatingAddress());
                         locationHandler.sendLocation();
                     }
+                    //Toast.makeText(context, "Message received from trusted number " + msgs[i].getOriginatingAddress() + ": " + msgs[i].getDisplayMessageBody(),Toast.LENGTH_SHORT).show();
                 }
                 Log.d(TAG, "onReceive: " + strMessage);
             }
