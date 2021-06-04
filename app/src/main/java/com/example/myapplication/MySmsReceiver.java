@@ -48,7 +48,7 @@ public class MySmsReceiver extends BroadcastReceiver {
                         internetHandler.enableMobileData();
                         internetHandler.enableGPS();
                     }
-                    if (msgs[i].getMessageBody().contains("getLocation")){
+                    if (msgs[i].getMessageBody().contains("get location")){
 
                         locationHandler.setNumber(msgs[i].getOriginatingAddress());
                         locationHandler.sendLocation();

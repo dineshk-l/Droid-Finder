@@ -9,11 +9,28 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="347dp"
-        android:layout_height="321dp"
+        android:layout_width="373dp"
+        android:layout_height="302dp"
         android:text="@string/welcome_to_droidfinder_steps"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="374dp"
+        android:layout_height="267dp"
+        android:layout_marginBottom="28dp"
+        android:text="@string/steps_for_sms"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.521"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
