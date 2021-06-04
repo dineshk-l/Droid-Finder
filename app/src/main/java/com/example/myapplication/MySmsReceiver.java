@@ -21,41 +21,37 @@ public class MySmsReceiver extends BroadcastReceiver {
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onReceive(Context context, Intent intent) {
-        LocationHandler locationHandler = new LocationHandler(context, null);
+        LocationHandler locationHandler = new LocationHandler(context, null);//getting the variables, most are needed for getting and reading sms messages
         InternetHandler internetHandler = new InternetHandler(context);
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs;
         String strMessage = "";
         String format = bundle.getString("format");
         Object[] pdus = (Object[]) bundle.get(PDU_TYPE);
-        updateNumbers(context);
+
+        updateNumbers(context);//updating trusted numbers from shared preferences everytime we receive a message
         if (pdus != null){
-            boolean isVersionM = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
+            boolean isVersionM = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);//checking the build version
             msgs = new SmsMessage[pdus.length];
             for (int i = 0; i < msgs.length; i++){
                 if (isVersionM){
-                    msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i], format);
+                    msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i], format);//if version is right create messages
                 }else {
                     msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                 }
-                strMessage += "SMS from" + msgs[i].getOriginatingAddress();
-                strMessage += " :" +  msgs[i].getMessageBody() + "\n";
 
                 if (trustedNr.contains(msgs[i].getOriginatingAddress())){
                     if (msgs[i].getMessageBody().contains("turn on data")){
-                        System.err.println("data");
                         internetHandler.enableWifi();
                         internetHandler.enableMobileData();
                         internetHandler.enableGPS();
                     }
                     if (msgs[i].getMessageBody().contains("get location")){
-
                         locationHandler.setNumber(msgs[i].getOriginatingAddress());
                         locationHandler.sendLocation();
                     }
                 }
                 Log.d(TAG, "onReceive: " + strMessage);
-                Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -66,7 +62,7 @@ public class MySmsReceiver extends BroadcastReceiver {
         int i = sharedPreferences.getInt(BlankFragment.COUNTER, 0);
         System.err.println(i);
         while(i > 0){
-            Log.d("Number" + i, sharedPreferences.getString(BlankFragment.TEXT + i, "a"));
+            Log.d("Number" + i, sharedPreferences.getString(BlankFragment.TEXT + i, ""));
             trustedNr.add(sharedPreferences.getString(BlankFragment.TEXT + i, ""));
             i--;
         }
