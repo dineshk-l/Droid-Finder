@@ -53,7 +53,7 @@ public class MySmsReceiver extends BroadcastReceiver {
                 }
                 Log.d(TAG, "onReceive: " + strMessage);
             }
-        }
+         }
     }
 
     private void updateNumbers(Context context) {

@@ -36,7 +36,6 @@ public class BlankFragment extends Fragment {
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String TEXT = "text";
     public static final String COUNTER = "counter";
-    List<String> trustedNr = new LinkedList<String>();
 
 
 
@@ -80,24 +79,24 @@ public class BlankFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_white, container, false);
-        final SharedPreferences[] sharedPreferences = {getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)};
-        SharedPreferences.Editor editor = sharedPreferences[0].edit();
-        TextInputEditText txtField = v.findViewById(R.id.txtField);
+        final SharedPreferences[] sharedPreferences = {getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)};//creating shared preferences
+        SharedPreferences.Editor editor = sharedPreferences[0].edit();//getting the editor to add information
+        TextInputEditText txtField = v.findViewById(R.id.txtField);//adding variables
         Button btnAdd = v.findViewById(R.id.btnAdd);
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
         Button btnClear = v.findViewById(R.id.btnClear);
         final int[] i = {sharedPreferences[0].getInt(COUNTER, 0)};
-        updateTables(tableLayout);
 
+        updateTables(tableLayout);//update the table with saved numbers on launch
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//clearing all numbers from view and shared preferences
                 editor.clear();
                 editor.apply();
                 tableLayout.removeAllViews();
             }
         });
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {//adding one number to shared preferences and scrollView
             @Override
             public void onClick(View v) {
                 String number = txtField.getText().toString();
@@ -107,20 +106,16 @@ public class BlankFragment extends Fragment {
                     editor.putInt(COUNTER, i[0]);
                     editor.putString(TEXT + i[0], number);
                     editor.apply();
-                    Toast.makeText(getActivity(), "Data saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Data saved", Toast.LENGTH_SHORT).show();//give toasts for some feedback
                 }else{
                     Toast.makeText(getActivity(), "You already have this number saved", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
-
-
         return v;
     }
 
-    private boolean checkForDuplicate(String number) {
+    private boolean checkForDuplicate(String number) {//checks for duplicates in shared prefs so we wouldn't add same numbers to the view and preferences
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         int i = sharedPreferences.getInt(COUNTER, 0);
         while (i > 0){
@@ -133,7 +128,7 @@ public class BlankFragment extends Fragment {
         return true;
     }
 
-    private void createRow(TableLayout tableLayout, String number) {
+    private void createRow(TableLayout tableLayout, String number) {//creates a row in a table with a specified number
         TableRow tableRow = new TableRow(getActivity());
         TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
         lp.setMargins(4, 4, 4, 4);
@@ -144,7 +139,7 @@ public class BlankFragment extends Fragment {
         tableLayout.addView(tableRow);
     }
 
-    private void updateTables(TableLayout tableLayout){
+    private void updateTables(TableLayout tableLayout){//updates the table from shared preferences
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         int i = sharedPreferences.getInt(COUNTER, 0);
         while(i > 0){
